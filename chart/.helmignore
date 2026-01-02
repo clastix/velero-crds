@@ -1,0 +1,13 @@
+# Helm ignore file
+.git
+.gitignore
+.helmignore
+#*#
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+*.vi
+*~
+.DS_Store

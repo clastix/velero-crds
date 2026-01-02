@@ -1,0 +1,38 @@
+name: Publish Helm Chart
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+env:
+  HELM_EXPERIMENTAL_OCI: 1
+
+jobs:
+  publish:
+    name: Build and Publish Chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure tag is on master
+        run: |
+          git fetch origin master
+          TAG_COMMIT=$(git rev-list -n 1 "$GITHUB_REF_NAME")
+          if git merge-base --is-ancestor "$TAG_COMMIT" origin/master; then
+            echo "✅ Tag is based on master"
+          else
+            echo "❌ Tag is NOT based on master"
+            exit 1
+          fi
+
+      - name: Build Helm chart
+        run: |
+          make package
+
+      - name: Push chart to OCI repository
+        run: |
+          make GITHUB_ACTOR=${{ github.actor }} GITHUB_TOKEN=${{ secrets.OCI_TOKEN }} publish

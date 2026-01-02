@@ -1,0 +1,15 @@
+apiVersion: v2
+name: velero-crds
+description: Helm chart for Velero Custom Resource Definitions
+type: application
+version: 0.0.0
+appVersion: 0.0.0
+home: https://velero.io
+sources:
+  - https://github.com/vmware-tanzu/velero
+  - https://github.com/clastix/velero-crds
+maintainers:
+  - name: CLASTIX
+    email: hello@clastix.io
+    url: https://clastix.io
+icon: https://velero.io/images/velero-icon-color.svg
